@@ -1,6 +1,11 @@
 enum RadioMessage {
     message1 = 49434
 }
+/**
+ * Created by Artucuno#1898
+ * 
+ * https://github.com/Artucuno
+ */
 radio.onReceivedValue(function (name, value) {
     if (!(isConnected)) {
         // Returned from the new host when the connectionNum has been guessed
@@ -20,13 +25,16 @@ radio.onReceivedValue(function (name, value) {
 // group (int) - Set radio group
 // min (int) - Set minimum random number
 // max (int) - Set maximum random number
-// 
-function createServer (LED: boolean, group: number, min: number, max: number) {
+function createServer (LED: boolean, showNum: boolean, group: number, min: number, max: number) {
     radio.setGroup(group)
     radio.setTransmitPower(7)
     connectionNum = randint(min, max)
-    basic.showNumber(connectionNum)
-    basic.pause(200)
+    // Turns on an LED light once connected. Can be used for anything.
+    // (Set the write pin)
+    if (showNum) {
+        basic.showNumber(connectionNum)
+        basic.pause(200)
+    }
     // Guesses the other microbit connectionNum
     while (!(isConnected)) {
         radio.sendValue("connectionCode", randint(min, max))
@@ -39,9 +47,6 @@ function createServer (LED: boolean, group: number, min: number, max: number) {
     }
     basic.showIcon(IconNames.Yes)
 }
-// Created by Artucuno#1898
-// 
-// https://github.com/Artucuno
 let isServer = 0
 let connectionNum = 0
 let isConnected = 0
@@ -49,11 +54,11 @@ radio.sendString("")
 basic.showNumber(0)
 // createServer Function
 // LED (True/False) - Enable LED light once connected
+// showNum (True/False) - Show connection number
 // group (int) - Set radio group
 // min (int) - Set minimum random number
 // max (int) - Set maximum random number
-// 
-createServer(false, 87, 0, 10)
+createServer(false, false, 87, 0, 10)
 // Displays which microbit is the host.
 // 0 = Client
 // 1 = Host
